@@ -123,7 +123,7 @@ Edit data proyek di `app.py` pada array `projects`:
 
 [![Email](https://img.shields.io/badge/Email-ramdanhidayah176@gmail.com-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:ramdanhidayah176@gmail.com)
 [![GitHub](https://img.shields.io/badge/GitHub-@username-181717?style=flat-square&logo=github&logoColor=white)](https://github.com)
-[![Instagram](https://img.shields.io/badge/Instagram-@username-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://instagram.com)
+[![Instagram](https://img.shields.io/badge/Instagram-@rmdnhdyh20_-E4405F?style=flat-square&logo=instagram&logoColor=white)](https://instagram.com)
 
 </div>
 
