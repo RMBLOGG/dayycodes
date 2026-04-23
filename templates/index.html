@@ -1,1 +1,671 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ramdan Hidayah — Portfolio</title>
 
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%237c3aed'/><stop offset='100%25' stop-color='%23a855f7'/></linearGradient></defs><circle cx='50' cy='50' r='50' fill='url(%23g)'/><text x='50' y='67' font-family='Arial' font-size='42' font-weight='bold' fill='white' text-anchor='middle'>R</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for msg in messages %}
+      {% set parts = msg.split(':', 1) %}
+      <div class="flash-message flash-{{ parts[0] }}" id="flashMsg">
+        <i class="fa-solid {{ 'fa-circle-check' if parts[0] == 'success' else 'fa-circle-xmark' }} flash-icon"></i>
+        {{ parts[1] if parts|length > 1 else msg }}
+        <button class="flash-close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="nav-logo">
+      <span class="logo-bracket">&lt;</span>Ramdan<span class="logo-accent">.dev</span><span class="logo-bracket">/&gt;</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about"      class="nav-link" data-i18n="nav.about">About</a></li>
+      <li><a href="#skills"     class="nav-link" data-i18n="nav.skills">Skills</a></li>
+      <li><a href="#projects"   class="nav-link" data-i18n="nav.projects">Projects</a></li>
+      <li><a href="#experience" class="nav-link" data-i18n="nav.experience">Experience</a></li>
+      <li><a href="#contact"    class="nav-link" data-i18n="nav.contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <button class="lang-toggle" id="langToggle" title="Toggle language">
+        <i class="fa-solid fa-globe"></i>
+        <span id="langLabel">ID</span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <i class="fa-solid fa-bars" id="hambIcon"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge float-anim">
+        <i class="fa-solid fa-hand-wave"></i>
+        <span data-i18n="hero.greeting">Halo, saya</span>
+      </div>
+
+      <h1 class="hero-name" data-text="Ramdan Hidayah">
+        Ramdan <span class="gradient-text">Hidayah</span>
+      </h1>
+
+      <div class="hero-role">
+        <span class="role-prefix" data-i18n="hero.rolePrefix">Seorang </span>
+        <span class="typing-text" id="typingText"></span>
+        <span class="typing-cursor">|</span>
+      </div>
+
+      <p class="hero-tagline" data-i18n="hero.tagline">
+        Developer indie yang membangun platform streaming & web app kreatif
+        dengan pendekatan desain yang clean dan modern.
+      </p>
+
+      <div class="hero-meta">
+        <span class="hero-meta-item">
+          <i class="fa-solid fa-location-dot"></i> Indonesia
+        </span>
+        <span class="hero-meta-item">
+          <i class="fa-solid fa-circle-dot" style="color:#4ade80;"></i>
+          <span data-i18n="hero.available">Open to work</span>
+        </span>
+        <span class="hero-meta-item">
+          <i class="fa-solid fa-code"></i>
+          3+ <span data-i18n="hero.yearsExp">Yrs Exp</span>
+        </span>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          <span data-i18n="hero.cta1">Lihat Karya</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <a href="#contact" class="btn btn-outline" data-i18n="hero.cta2">Hubungi Saya</a>
+      </div>
+
+      <div class="hero-social">
+        <a href="mailto:ramdanhidayah176@gmail.com" class="social-link" title="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        <a href="#" class="social-link" title="GitHub" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="#" class="social-link" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="#" class="social-link" title="Instagram" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- ANIME CHARACTER -->
+    <div class="hero-anime-wrap">
+      <div class="anime-char-container">
+
+        <!-- Floating code bubbles -->
+        <div class="code-bubble cb1"><i class="fa-solid fa-code"></i> &lt;/&gt;</div>
+        <div class="code-bubble cb2"><i class="fa-solid fa-brackets-curly"></i> { }</div>
+        <div class="code-bubble cb3"><i class="fa-brands fa-npm"></i> npm</div>
+        <div class="code-bubble cb4"><i class="fa-brands fa-git-alt"></i> git</div>
+        <div class="code-bubble cb5"><i class="fa-brands fa-python"></i> py</div>
+
+        <!-- Glow ring behind character -->
+        <div class="anime-glow-ring"></div>
+
+        <!-- SVG Anime Character -->
+        <svg class="anime-char" viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skinGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#fcd5b0"/>
+              <stop offset="100%" stop-color="#f4a96a"/>
+            </linearGradient>
+            <linearGradient id="hairGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a0a2e"/>
+              <stop offset="100%" stop-color="#3b1f6b"/>
+            </linearGradient>
+            <linearGradient id="shirtGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#4f46e5"/>
+            </linearGradient>
+            <linearGradient id="laptopGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1e1b4b"/>
+              <stop offset="100%" stop-color="#0f0a1e"/>
+            </linearGradient>
+            <linearGradient id="screenGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0d0d1f"/>
+              <stop offset="100%" stop-color="#1a103a"/>
+            </linearGradient>
+            <linearGradient id="pantsGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1e293b"/>
+              <stop offset="100%" stop-color="#0f172a"/>
+            </linearGradient>
+            <filter id="screenGlow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="softShadow">
+              <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#7c3aed" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+
+          <!-- Shadow on floor -->
+          <ellipse cx="160" cy="415" rx="80" ry="8" fill="#7c3aed" fill-opacity="0.15"/>
+
+          <!-- BODY / SHIRT -->
+          <rect x="95" y="210" width="130" height="100" rx="18" fill="url(#shirtGrad)"/>
+          <!-- Shirt collar V -->
+          <polygon points="145,210 175,210 160,235" fill="#4f46e5"/>
+          <!-- Shirt sleeve left -->
+          <rect x="60" y="215" width="45" height="35" rx="12" fill="url(#shirtGrad)"/>
+          <!-- Shirt sleeve right -->
+          <rect x="215" y="215" width="45" height="35" rx="12" fill="url(#shirtGrad)"/>
+          <!-- Shirt detail stripe -->
+          <rect x="150" y="218" width="3" height="80" rx="2" fill="#a78bfa" fill-opacity="0.4"/>
+
+          <!-- PANTS -->
+          <rect x="100" y="300" width="52" height="95" rx="14" fill="url(#pantsGrad)"/>
+          <rect x="168" y="300" width="52" height="95" rx="14" fill="url(#pantsGrad)"/>
+          <!-- Belt -->
+          <rect x="98" y="298" width="124" height="12" rx="6" fill="#334155"/>
+          <rect x="152" y="299" width="16" height="10" rx="3" fill="#a78bfa"/>
+
+          <!-- SHOES -->
+          <ellipse cx="126" cy="392" rx="28" ry="10" fill="#1e293b"/>
+          <ellipse cx="194" cy="392" rx="28" ry="10" fill="#1e293b"/>
+          <rect x="100" y="383" width="52" height="15" rx="8" fill="#0f172a"/>
+          <rect x="168" y="383" width="52" height="15" rx="8" fill="#0f172a"/>
+
+          <!-- HANDS -->
+          <!-- Left hand on laptop -->
+          <ellipse cx="108" cy="278" rx="18" ry="12" fill="url(#skinGrad)"/>
+          <!-- Right hand on laptop -->
+          <ellipse cx="212" cy="278" rx="18" ry="12" fill="url(#skinGrad)"/>
+          <!-- Fingers left -->
+          <rect x="94" y="272" width="7" height="14" rx="4" fill="url(#skinGrad)"/>
+          <rect x="103" y="270" width="7" height="16" rx="4" fill="url(#skinGrad)"/>
+          <rect x="112" y="270" width="7" height="16" rx="4" fill="url(#skinGrad)"/>
+          <rect x="121" y="272" width="7" height="14" rx="4" fill="url(#skinGrad)"/>
+          <!-- Fingers right -->
+          <rect x="182" y="272" width="7" height="14" rx="4" fill="url(#skinGrad)"/>
+          <rect x="191" y="270" width="7" height="16" rx="4" fill="url(#skinGrad)"/>
+          <rect x="200" y="270" width="7" height="16" rx="4" fill="url(#skinGrad)"/>
+          <rect x="209" y="272" width="7" height="14" rx="4" fill="url(#skinGrad)"/>
+
+          <!-- LAPTOP -->
+          <g filter="url(#softShadow)">
+            <!-- Laptop base -->
+            <rect x="80" y="280" width="160" height="10" rx="5" fill="#334155"/>
+            <!-- Keyboard area -->
+            <rect x="85" y="265" width="150" height="25" rx="6" fill="url(#laptopGrad)"/>
+            <!-- Trackpad -->
+            <rect x="138" y="270" width="44" height="14" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+            <!-- Screen hinge -->
+            <rect x="82" y="262" width="156" height="6" rx="3" fill="#1e1b4b"/>
+            <!-- Screen lid -->
+            <rect x="88" y="140" width="144" height="128" rx="10" fill="url(#laptopGrad)" stroke="#3b1f6b" stroke-width="1.5"/>
+            <!-- Screen display -->
+            <rect x="96" y="148" width="128" height="112" rx="6" fill="url(#screenGrad)"/>
+            <!-- Screen content - code lines -->
+            <g filter="url(#screenGlow)" class="screen-code">
+              <rect x="102" y="156" width="60" height="3" rx="1.5" fill="#a78bfa" opacity="0.9"/>
+              <rect x="108" y="163" width="40" height="3" rx="1.5" fill="#06b6d4" opacity="0.9"/>
+              <rect x="108" y="170" width="55" height="3" rx="1.5" fill="#4ade80" opacity="0.9"/>
+              <rect x="108" y="177" width="35" height="3" rx="1.5" fill="#fbbf24" opacity="0.9"/>
+              <rect x="108" y="184" width="50" height="3" rx="1.5" fill="#f472b6" opacity="0.9"/>
+              <rect x="102" y="191" width="45" height="3" rx="1.5" fill="#a78bfa" opacity="0.9"/>
+              <rect x="108" y="198" width="30" height="3" rx="1.5" fill="#06b6d4" opacity="0.9"/>
+              <rect x="108" y="205" width="52" height="3" rx="1.5" fill="#4ade80" opacity="0.9"/>
+              <rect x="108" y="212" width="38" height="3" rx="1.5" fill="#f472b6" opacity="0.9"/>
+              <!-- Cursor blink line -->
+              <rect class="cursor-line" x="108" y="219" width="8" height="3" rx="1.5" fill="#fff" opacity="0.9"/>
+            </g>
+            <!-- Screen top bar -->
+            <rect x="96" y="148" width="128" height="10" rx="4" fill="#1a0a2e"/>
+            <circle cx="103" cy="153" r="2.5" fill="#f472b6"/>
+            <circle cx="111" cy="153" r="2.5" fill="#fbbf24"/>
+            <circle cx="119" cy="153" r="2.5" fill="#4ade80"/>
+            <!-- Screen reflection -->
+            <rect x="96" y="148" width="128" height="112" rx="6" fill="white" fill-opacity="0.02"/>
+          </g>
+
+          <!-- NECK -->
+          <rect x="148" y="188" width="24" height="28" rx="10" fill="url(#skinGrad)"/>
+
+          <!-- HEAD -->
+          <ellipse cx="160" cy="165" rx="52" ry="55" fill="url(#skinGrad)"/>
+
+          <!-- HAIR - back layer -->
+          <ellipse cx="160" cy="128" rx="55" ry="30" fill="url(#hairGrad)"/>
+          <!-- Hair sides -->
+          <rect x="108" y="125" width="20" height="60" rx="10" fill="url(#hairGrad)"/>
+          <rect x="192" y="125" width="20" height="60" rx="10" fill="url(#hairGrad)"/>
+
+          <!-- HAIR - front/top (animated) -->
+          <g class="hair-front">
+            <!-- Main top hair -->
+            <path d="M115 130 Q130 90 160 88 Q190 90 205 130 Q185 115 160 112 Q135 115 115 130Z" fill="url(#hairGrad)"/>
+            <!-- Hair spikes/strands -->
+            <path class="hair-strand s1" d="M135 100 Q125 70 130 55 Q140 75 138 100Z" fill="#1a0a2e"/>
+            <path class="hair-strand s2" d="M155 94 Q150 62 158 48 Q165 65 162 94Z" fill="#1a0a2e"/>
+            <path class="hair-strand s3" d="M172 97 Q172 65 182 55 Q185 75 178 97Z" fill="#1a0a2e"/>
+            <!-- Side bang left -->
+            <path class="hair-bang" d="M115 140 Q100 145 98 165 Q108 155 118 155Z" fill="url(#hairGrad)"/>
+          </g>
+
+          <!-- EARS -->
+          <ellipse cx="109" cy="168" rx="9" ry="11" fill="url(#skinGrad)"/>
+          <ellipse cx="211" cy="168" rx="9" ry="11" fill="url(#skinGrad)"/>
+          <ellipse cx="109" cy="168" rx="5" ry="7" fill="#f4a96a"/>
+          <ellipse cx="211" cy="168" rx="5" ry="7" fill="#f4a96a"/>
+
+          <!-- EYES -->
+          <g class="eyes-group">
+            <!-- Eye whites left -->
+            <ellipse cx="144" cy="167" rx="14" ry="13" fill="white"/>
+            <!-- Eye whites right -->
+            <ellipse cx="176" cy="167" rx="14" ry="13" fill="white"/>
+            <!-- Iris left -->
+            <ellipse class="iris-l" cx="144" cy="167" rx="10" ry="11" fill="#7c3aed"/>
+            <!-- Iris right -->
+            <ellipse class="iris-r" cx="176" cy="167" rx="10" ry="11" fill="#7c3aed"/>
+            <!-- Pupil left -->
+            <ellipse cx="144" cy="168" rx="5" ry="6" fill="#0a0010"/>
+            <!-- Pupil right -->
+            <ellipse cx="176" cy="168" rx="5" ry="6" fill="#0a0010"/>
+            <!-- Eye shine left -->
+            <ellipse cx="148" cy="163" rx="3" ry="3" fill="white" opacity="0.9"/>
+            <ellipse cx="140" cy="170" rx="1.5" ry="1.5" fill="white" opacity="0.5"/>
+            <!-- Eye shine right -->
+            <ellipse cx="180" cy="163" rx="3" ry="3" fill="white" opacity="0.9"/>
+            <ellipse cx="172" cy="170" rx="1.5" ry="1.5" fill="white" opacity="0.5"/>
+            <!-- Eyelashes top left -->
+            <path d="M130 160 Q144 153 158 160" stroke="#1a0a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Eyelashes top right -->
+            <path d="M162 160 Q176 153 190 160" stroke="#1a0a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Eyelids for blink (hidden normally, shown on blink) -->
+            <ellipse class="eyelid-l" cx="144" cy="167" rx="14" ry="0" fill="url(#skinGrad)"/>
+            <ellipse class="eyelid-r" cx="176" cy="167" rx="14" ry="0" fill="url(#skinGrad)"/>
+          </g>
+
+          <!-- EYEBROWS -->
+          <path d="M130 150 Q144 144 158 150" stroke="#1a0a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M162 150 Q176 144 190 150" stroke="#1a0a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+          <!-- NOSE -->
+          <path d="M157 178 Q160 183 163 178" stroke="#e8956a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+          <!-- MOUTH / SMILE -->
+          <path class="mouth" d="M148 192 Q160 202 172 192" stroke="#c0714a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Cheek blush -->
+          <ellipse cx="130" cy="183" rx="10" ry="6" fill="#f472b6" fill-opacity="0.25"/>
+          <ellipse cx="190" cy="183" rx="10" ry="6" fill="#f472b6" fill-opacity="0.25"/>
+
+          <!-- HEADPHONES -->
+          <path d="M110 148 Q108 115 160 112 Q212 115 210 148" stroke="#3b1f6b" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <rect x="102" y="148" width="16" height="22" rx="8" fill="#7c3aed"/>
+          <rect x="202" y="148" width="16" height="22" rx="8" fill="#7c3aed"/>
+          <rect x="105" y="151" width="10" height="16" rx="5" fill="#a78bfa"/>
+          <rect x="205" y="151" width="10" height="16" rx="5" fill="#a78bfa"/>
+        </svg>
+
+        <!-- Floating status badge -->
+        <div class="anime-status-badge">
+          <span class="status-dot"></span>
+          <span>Coding...</span>
+        </div>
+      </div>
+
+      <!-- Rocket scroll hint — di samping karakter -->
+      <div class="anime-scroll-hint">
+        <div class="rocket-wrap">
+          <i class="fa-solid fa-rocket rocket-icon"></i>
+          <div class="rocket-flame">
+            <span class="flame f1"></span>
+            <span class="flame f2"></span>
+            <span class="flame f3"></span>
+          </div>
+          <div class="rocket-trail"></div>
+        </div>
+        <span class="scroll-label">scroll</span>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">01 — About</span>
+      <h2 class="section-title"><span data-i18n="about.title">Tentang</span> <span class="gradient-text" data-i18n="about.titleAccent">Saya</span></h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-avatar-wrap reveal">
+        <div class="about-avatar float-anim">
+          <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="avatarGrad" x1="0" y1="0" x2="200" y2="220" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#7c3aed"/>
+                <stop offset="100%" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="100" cy="190" rx="65" ry="35" fill="url(#avatarGrad)" opacity="0.3"/>
+            <rect x="60" y="120" width="80" height="75" rx="20" fill="url(#avatarGrad)" opacity="0.8"/>
+            <circle cx="100" cy="88" r="42" fill="url(#avatarGrad)"/>
+            <circle cx="86" cy="85" r="5" fill="white" opacity="0.9"/>
+            <circle cx="114" cy="85" r="5" fill="white" opacity="0.9"/>
+            <path d="M88 102 Q100 112 112 102" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9"/>
+            <rect x="48" y="148" width="104" height="52" rx="8" fill="#1a1a2e" stroke="#7c3aed" stroke-width="2"/>
+            <rect x="55" y="155" width="90" height="38" rx="4" fill="#0d0d1a"/>
+            <rect x="30" y="200" width="140" height="8" rx="4" fill="#1a1a2e" stroke="#7c3aed" stroke-width="1.5"/>
+            <rect x="60" y="160" width="40" height="4" rx="2" fill="#a855f7" opacity="0.8"/>
+            <rect x="60" y="168" width="60" height="4" rx="2" fill="#7c3aed" opacity="0.6"/>
+            <rect x="60" y="176" width="30" height="4" rx="2" fill="#a855f7" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="avatar-glow"></div>
+        <div class="avatar-badge">
+          <i class="fa-solid fa-laptop-code"></i>
+          <span data-i18n="about.badge">Full Stack Dev</span>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <div class="reveal">
+          <h3 class="about-title" data-i18n="about.subtitle">Developer & Creator</h3>
+          <p class="about-bio" data-i18n="about.bio1">
+            Developer indie yang suka bikin platform streaming dan web app kreatif.
+            Fokus di Flask, Python, dan desain UI yang clean dan modern.
+          </p>
+          <p class="about-bio" data-i18n="about.bio2">
+            Dari anime streaming sampai live score bola — saya membangun produk digital
+            yang bukan cuma fungsional, tapi juga enak dipandang dan nyaman dipakai.
+            Setiap proyek adalah kesempatan untuk belajar sesuatu yang baru.
+          </p>
+
+          <ul class="about-details reveal">
+            <li><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="about.d1">Self-taught developer sejak 2021</span></li>
+            <li><i class="fa-solid fa-fire"></i> <span data-i18n="about.d2">Spesialis platform streaming & web apps</span></li>
+            <li><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="about.d3">Juga develop Android app via AIDE (Java)</span></li>
+            <li><i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="about.d4">Deploy di Vercel, Railway & Supabase</span></li>
+            <li><i class="fa-solid fa-spider"></i> <span data-i18n="about.d5">Berpengalaman web scraping & API discovery</span></li>
+          </ul>
+
+          <a href="#" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-download"></i>
+            <span data-i18n="about.cvBtn">Download CV</span>
+          </a>
+        </div>
+
+        <div class="stats-grid reveal">
+          <div class="stat-card float-anim">
+            <i class="fa-solid fa-calendar-check stat-icon"></i>
+            <span class="stat-number" data-target="3">0</span><span class="stat-plus">+</span>
+            <span class="stat-label" data-i18n="about.stat1">Tahun Pengalaman</span>
+          </div>
+          <div class="stat-card float-anim" style="animation-delay:0.2s">
+            <i class="fa-solid fa-folder-open stat-icon"></i>
+            <span class="stat-number" data-target="15">0</span><span class="stat-plus">+</span>
+            <span class="stat-label" data-i18n="about.stat2">Proyek Selesai</span>
+          </div>
+          <div class="stat-card float-anim" style="animation-delay:0.4s">
+            <i class="fa-solid fa-face-smile stat-icon"></i>
+            <span class="stat-number" data-target="10">0</span><span class="stat-plus">+</span>
+            <span class="stat-label" data-i18n="about.stat3">Klien Puas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="section skills" id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">02 — Skills</span>
+      <h2 class="section-title"><span data-i18n="skills.title">Keahlian</span> <span class="gradient-text" data-i18n="skills.titleAccent">Teknis</span></h2>
+      <p class="section-subtitle" data-i18n="skills.subtitle">Tools dan teknologi yang saya kuasai untuk membangun produk digital.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal float-anim"><div class="skill-header"><i class="fa-brands fa-python skill-icon-fa" style="color:#3b82f6"></i><span class="skill-name">Python</span><span class="skill-percent">90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.1s"><div class="skill-header"><i class="fa-solid fa-flask skill-icon-fa" style="color:#a855f7"></i><span class="skill-name">Flask</span><span class="skill-percent">88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.2s"><div class="skill-header"><i class="fa-brands fa-js skill-icon-fa" style="color:#facc15"></i><span class="skill-name">JavaScript</span><span class="skill-percent">78%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="78"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.3s"><div class="skill-header"><i class="fa-brands fa-html5 skill-icon-fa" style="color:#f97316"></i><span class="skill-name">HTML & CSS</span><span class="skill-percent">92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.1s"><div class="skill-header"><i class="fa-solid fa-database skill-icon-fa" style="color:#10b981"></i><span class="skill-name">Supabase</span><span class="skill-percent">80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.2s"><div class="skill-header"><i class="fa-solid fa-plug skill-icon-fa" style="color:#06b6d4"></i><span class="skill-name">REST API</span><span class="skill-percent">85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.3s"><div class="skill-header"><i class="fa-brands fa-git-alt skill-icon-fa" style="color:#f97316"></i><span class="skill-name">Git & GitHub</span><span class="skill-percent">82%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.1s"><div class="skill-header"><i class="fa-solid fa-server skill-icon-fa" style="color:#8b5cf6"></i><span class="skill-name">Vercel / Railway</span><span class="skill-percent">87%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="87"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.2s"><div class="skill-header"><i class="fa-solid fa-pen-ruler skill-icon-fa" style="color:#ec4899"></i><span class="skill-name">UI Design</span><span class="skill-percent">75%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="75"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.3s"><div class="skill-header"><i class="fa-brands fa-android skill-icon-fa" style="color:#4ade80"></i><span class="skill-name">Android (Java)</span><span class="skill-percent">70%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="70"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.1s"><div class="skill-header"><i class="fa-solid fa-spider skill-icon-fa" style="color:#fb923c"></i><span class="skill-name">Web Scraping</span><span class="skill-percent">83%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="83"></div></div></div>
+      <div class="skill-card reveal float-anim" style="animation-delay:.2s"><div class="skill-header"><i class="fa-solid fa-bolt skill-icon-fa" style="color:#facc15"></i><span class="skill-name">Upstash Redis</span><span class="skill-percent">76%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="76"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">03 — Projects</span>
+      <h2 class="section-title"><span data-i18n="projects.title">Karya</span> <span class="gradient-text" data-i18n="projects.titleAccent">Terbaru</span></h2>
+      <p class="section-subtitle" data-i18n="projects.subtitle">Kumpulan proyek yang telah saya bangun dengan penuh semangat.</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs-wrap">
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" data-filter="all">
+          <i class="fa-solid fa-border-all"></i> All
+        </button>
+        <button class="filter-tab" data-filter="streaming">
+          <i class="fa-solid fa-play"></i> Streaming
+        </button>
+        <button class="filter-tab" data-filter="api">
+          <i class="fa-solid fa-plug"></i> API
+        </button>
+        <button class="filter-tab" data-filter="web">
+          <i class="fa-solid fa-globe"></i> Web App
+        </button>
+      </div>
+      <div class="filter-tab-indicator" id="filterIndicator"></div>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+      {% for p in projects %}
+      <div class="project-card reveal float-anim" data-category="{{ p.category }}" style="--card-accent: {{ p.accent }}; animation-delay: {{ loop.index0 * 0.1 }}s">
+        <div class="card-thumb-wrap">
+          <div class="card-skeleton" id="skeleton-{{ p.id }}"></div>
+          <img class="card-thumb" src="{{ p.screenshot }}" alt="Screenshot {{ p.title }}" loading="lazy"
+            onload="removeSkeleton({{ p.id }})" onerror="handleImgError(this, {{ p.id }}, '{{ p.title }}', '{{ p.accent }}')" />
+          <div class="card-overlay">
+            <a href="{{ p.url }}" target="_blank" rel="noopener noreferrer" class="overlay-btn">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Site
+            </a>
+          </div>
+          <span class="card-badge" style="background:{{ p.accent }}22;color:{{ p.accent }};border-color:{{ p.accent }}44;">{{ p.badge }}</span>
+          <span class="card-number">{{ '%02d' % p.id }}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ p.title }}</h3>
+          <p class="card-desc">{{ p.description }}</p>
+          <div class="card-tags">{% for tag in p.tags %}<span class="tag-pill">{{ tag }}</span>{% endfor %}</div>
+          <a href="{{ p.url }}" target="_blank" rel="noopener noreferrer" class="card-btn" style="--btn-color:{{ p.accent }};">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span data-i18n="projects.visitBtn">Visit Site</span>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section experience" id="experience">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">04 — Experience</span>
+      <h2 class="section-title"><span data-i18n="exp.title">Perjalanan</span> <span class="gradient-text" data-i18n="exp.titleAccent">Karier</span></h2>
+      <p class="section-subtitle" data-i18n="exp.subtitle">Jejak pengalaman membangun produk digital dari 2021 hingga sekarang.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal-left float-anim">
+        <div class="timeline-dot"><i class="fa-solid fa-rocket"></i></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2024 — <span data-i18n="exp.now">Sekarang</span></span>
+          <h3 class="timeline-title" data-i18n="exp.j1t">Indie Developer & Freelancer</h3>
+          <p class="timeline-company"><i class="fa-solid fa-briefcase"></i> Self-Employed</p>
+          <p class="timeline-desc" data-i18n="exp.j1d">Membangun dan mengoperasikan beberapa platform web secara mandiri, termasuk anime streaming, live score, dan berbagai web app kreatif yang dimonetisasi melalui ad network.</p>
+          <div class="timeline-tags"><span><i class="fa-solid fa-flask"></i> Flask</span><span><i class="fa-solid fa-server"></i> Vercel</span><span><i class="fa-solid fa-database"></i> Supabase</span></div>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left float-anim" style="animation-delay:.15s">
+        <div class="timeline-dot"><i class="fa-solid fa-code"></i></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2023</span>
+          <h3 class="timeline-title" data-i18n="exp.j2t">Web Developer</h3>
+          <p class="timeline-company"><i class="fa-solid fa-briefcase"></i> <span data-i18n="exp.j2c">Proyek Klien Freelance</span></p>
+          <p class="timeline-desc" data-i18n="exp.j2d">Mengembangkan berbagai website untuk klien lokal, mulai dari landing page bisnis, toko online sederhana, hingga dashboard admin berbasis Flask dan Python.</p>
+          <div class="timeline-tags"><span><i class="fa-brands fa-python"></i> Python</span><span><i class="fa-brands fa-html5"></i> HTML/CSS</span><span><i class="fa-brands fa-js"></i> JavaScript</span></div>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left float-anim" style="animation-delay:.3s">
+        <div class="timeline-dot"><i class="fa-solid fa-book-open"></i></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2022</span>
+          <h3 class="timeline-title" data-i18n="exp.j3t">Belajar Mandiri — Full Stack Web</h3>
+          <p class="timeline-company"><i class="fa-solid fa-graduation-cap"></i> Online Learning & Side Projects</p>
+          <p class="timeline-desc" data-i18n="exp.j3d">Mulai mendalami Flask, REST API, dan Supabase melalui proyek-proyek pribadi. Membangun fondasi kuat dalam pengembangan web full stack dan desain UI/UX.</p>
+          <div class="timeline-tags"><span><i class="fa-solid fa-flask"></i> Flask</span><span><i class="fa-solid fa-plug"></i> REST API</span><span><i class="fa-brands fa-git-alt"></i> Git</span></div>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left float-anim" style="animation-delay:.45s">
+        <div class="timeline-dot"><i class="fa-brands fa-android"></i></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2021</span>
+          <h3 class="timeline-title" data-i18n="exp.j4t">Android Developer (Java)</h3>
+          <p class="timeline-company"><i class="fa-solid fa-mobile-screen"></i> <span data-i18n="exp.j4c">Proyek Pribadi</span></p>
+          <p class="timeline-desc" data-i18n="exp.j4d">Membangun beberapa aplikasi Android dengan Java menggunakan AIDE, termasuk app manga reader dan streaming anime dengan fitur Google OAuth login.</p>
+          <div class="timeline-tags"><span><i class="fa-brands fa-java"></i> Java</span><span><i class="fa-brands fa-android"></i> Android</span><span><i class="fa-solid fa-mobile-screen"></i> AIDE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">05 — Contact</span>
+      <h2 class="section-title"><span data-i18n="contact.title">Mari</span> <span class="gradient-text" data-i18n="contact.titleAccent">Terhubung</span></h2>
+      <p class="section-subtitle" data-i18n="contact.subtitle">Punya project seru? Yuk ngobrol!</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-form-wrap reveal">
+        <form class="contact-form" action="/contact" method="POST">
+          <div class="form-group">
+            <label for="nama"><i class="fa-solid fa-user"></i> <span data-i18n="contact.fn">Nama Lengkap</span></label>
+            <input type="text" id="nama" name="nama" placeholder="Nama kamu..." required />
+          </div>
+          <div class="form-group">
+            <label for="email"><i class="fa-solid fa-envelope"></i> Email</label>
+            <input type="email" id="email" name="email" placeholder="email@kamu.com" required />
+          </div>
+          <div class="form-group">
+            <label for="pesan"><i class="fa-solid fa-comment-dots"></i> <span data-i18n="contact.fm">Pesan</span></label>
+            <textarea id="pesan" name="pesan" rows="5" placeholder="Ceritakan project atau idemu..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span data-i18n="contact.fs">Kirim Pesan</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="contact-info reveal">
+        <div class="info-card float-anim">
+          <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div><p class="info-label">Email</p><a href="mailto:ramdanhidayah176@gmail.com" class="info-value">ramdanhidayah176@gmail.com</a></div>
+        </div>
+        <div class="info-card float-anim" style="animation-delay:.15s">
+          <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div><p class="info-label" data-i18n="contact.loc">Lokasi</p><p class="info-value"><i class="fa-solid fa-flag"></i> Indonesia</p></div>
+        </div>
+        <div class="info-card float-anim" style="animation-delay:.3s">
+          <div class="info-icon"><i class="fa-solid fa-clock"></i></div>
+          <div><p class="info-label">Response Time</p><p class="info-value">&lt; 24 <span data-i18n="contact.hrs">jam</span></p></div>
+        </div>
+        <div class="info-card float-anim" style="animation-delay:.45s">
+          <div class="info-icon"><i class="fa-solid fa-briefcase"></i></div>
+          <div><p class="info-label">Status</p><p class="info-value" style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> <span data-i18n="contact.status">Open for projects</span></p></div>
+        </div>
+
+        <div class="contact-social">
+          <p class="social-label" data-i18n="contact.findme">Find me on:</p>
+          <div class="social-row">
+            <a href="mailto:ramdanhidayah176@gmail.com" class="social-btn"><i class="fa-solid fa-envelope"></i> Email</a>
+            <a href="#" class="social-btn" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+            <a href="#" class="social-btn" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <p class="footer-copy">
+        &copy; 2024 <span class="gradient-text">Ramdan Hidayah</span> — <span data-i18n="footer.made">Dibuat dengan</span> <i class="fa-solid fa-heart" style="color:#f472b6;"></i> & Flask
+      </p>
+      <p class="footer-tagline">Building digital experiences, one line at a time.</p>
+    </div>
+  </div>
+  <button class="scroll-top" id="scrollTop" title="Kembali ke atas">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
