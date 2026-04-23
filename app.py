@@ -1,8 +1,12 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
+from whitenoise import WhiteNoise
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'portfolio-ramdan-secret-2024')
+
+# WhiteNoise — serve static files di production (Vercel)
+app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static')
 
 # ─── Data Proyek ─────────────────────────────────────────────────────────────
 projects = [
