@@ -6,7 +6,11 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'portfolio-ramdan-secret-2024')
 
 # WhiteNoise — serve static files di production (Vercel)
-app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/', prefix='static')
+app.wsgi_app = WhiteNoise(
+    app.wsgi_app,
+    root=os.path.join(os.path.dirname(__file__), 'static'),
+    prefix='static'
+)
 
 # ─── Data Proyek ─────────────────────────────────────────────────────────────
 projects = [
