@@ -1150,43 +1150,46 @@ a.info-value:hover { color: var(--accent-light); }
 .rocket-icon {
   font-size: 1.4rem;
   color: #a78bfa;
-  transform: rotate(135deg); /* roket ngarah ke bawah */
+  transform: rotate(-45deg); /* roket ngarah ke atas-kanan */
   filter: drop-shadow(0 0 8px rgba(167,139,250,0.8));
   z-index: 2;
   position: relative;
 }
 
-/* Api di belakang roket */
+/* Api di bawah roket = pendorong */
 .rocket-flame {
   display: flex;
   gap: 2px;
-  margin-top: -2px;
+  margin-top: -4px;
   transform: rotate(0deg);
 }
 
 .flame {
   display: block;
-  border-radius: 50% 50% 20% 20%;
+  border-radius: 20% 20% 50% 50%;
   animation: flameDance 0.15s ease-in-out infinite alternate;
 }
 
 .f1 {
   width: 5px; height: 12px;
-  background: linear-gradient(to top, #f97316, #fbbf24);
+  background: linear-gradient(to bottom, #fbbf24, #f97316);
   animation-delay: 0s;
-  transform-origin: bottom center;
+  transform-origin: top center;
+  border-radius: 20% 20% 50% 50%;
 }
 .f2 {
   width: 7px; height: 18px;
-  background: linear-gradient(to top, #ef4444, #f97316, #fbbf24);
+  background: linear-gradient(to bottom, #fbbf24, #f97316, #ef4444);
   animation-delay: 0.05s;
-  transform-origin: bottom center;
+  transform-origin: top center;
+  border-radius: 20% 20% 50% 50%;
 }
 .f3 {
   width: 5px; height: 12px;
-  background: linear-gradient(to top, #f97316, #fbbf24);
+  background: linear-gradient(to bottom, #fbbf24, #f97316);
   animation-delay: 0.1s;
-  transform-origin: bottom center;
+  transform-origin: top center;
+  border-radius: 20% 20% 50% 50%;
 }
 
 @keyframes flameDance {
@@ -1198,10 +1201,10 @@ a.info-value:hover { color: var(--accent-light); }
 .rocket-trail {
   width: 2px;
   height: 0;
-  background: linear-gradient(to bottom, rgba(167,139,250,0.6), transparent);
+  background: linear-gradient(to bottom, rgba(251,191,36,0.5), rgba(167,139,250,0.3), transparent);
   border-radius: 2px;
   animation: trailGrow 1.8s ease-in-out infinite;
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 @keyframes trailGrow {
