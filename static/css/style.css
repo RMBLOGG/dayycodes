@@ -895,7 +895,7 @@ a.info-value:hover { color: var(--accent-light); }
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 20px 40px rgba(124, 58, 237, 0.35));
-  animation: charFloat 4s ease-in-out infinite;
+  animation: charReact 5s ease-in-out infinite;
   transform-origin: center bottom;
 }
 
@@ -903,6 +903,31 @@ a.info-value:hover { color: var(--accent-light); }
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   25%       { transform: translateY(-12px) rotate(0.5deg); }
   75%       { transform: translateY(-6px) rotate(-0.5deg); }
+}
+
+/* Karakter kaget saat roket blast off — sync dengan rocketSequence 5s */
+@keyframes charReact {
+  /* 0-45%: float normal */
+  0%   { transform: translateY(0px) rotate(0deg) scale(1); }
+  10%  { transform: translateY(-8px) rotate(0.5deg) scale(1); }
+  20%  { transform: translateY(0px) rotate(0deg) scale(1); }
+
+  /* 25-45%: nengok ke kanan ngikutin roket orbit */
+  28%  { transform: translateY(-4px) rotate(3deg) scale(1); }
+  38%  { transform: translateY(-4px) rotate(-2deg) scale(1); }
+  44%  { transform: translateY(0px) rotate(0deg) scale(1); }
+
+  /* 54-64%: KAGET saat roket blast off — badan goyang */
+  54%  { transform: translateY(0px) rotate(0deg) scale(1); }
+  56%  { transform: translateY(-6px) rotate(-4deg) scale(1.04); }
+  58%  { transform: translateY(4px) rotate(4deg) scale(0.97); }
+  60%  { transform: translateY(-4px) rotate(-3deg) scale(1.03); }
+  62%  { transform: translateY(2px) rotate(2deg) scale(0.98); }
+  64%  { transform: translateY(0px) rotate(0deg) scale(1); }
+
+  /* 64-100%: balik normal */
+  80%  { transform: translateY(-6px) rotate(0.5deg) scale(1); }
+  100% { transform: translateY(0px) rotate(0deg) scale(1); }
 }
 
 /* ── Glow ring ── */
@@ -936,29 +961,55 @@ a.info-value:hover { color: var(--accent-light); }
   70%       { transform: rotate(3deg) skewX(2deg); }
 }
 
-/* ── Eye blink animation ── */
-.eyelid-l { animation: blinkL 5s ease-in-out infinite; }
-.eyelid-r { animation: blinkR 5s ease-in-out infinite 0.05s; }
+/* ── Eyelid: blink normal + melotot kaget sync 5s ── */
+.eyelid-l { animation: eyelidReact 5s ease-in-out infinite; }
+.eyelid-r { animation: eyelidReact 5s ease-in-out infinite 0.05s; }
 
-@keyframes blinkL {
-  0%, 90%, 100% { ry: 0; }
-  93%            { ry: 13; }
+@keyframes eyelidReact {
+  /* blink normal di awal */
+  0%, 14%, 100% { ry: 0; }
+  16%            { ry: 13; }
+  18%            { ry: 0; }
+
+  /* kaget — mata terbuka lebar (ry negatif = lebih terbuka) */
+  54%  { ry: 0; }
+  56%  { ry: 13; }
+  58%  { ry: 0; }
+  /* mata melotot lebar */
+  60%  { ry: 0; }
+  62%  { ry: 0; }
+
+  /* blink lagi setelah kaget */
+  78%  { ry: 0; }
+  80%  { ry: 13; }
+  82%  { ry: 0; }
 }
-@keyframes blinkR {
-  0%, 90%, 100% { ry: 0; }
-  93%            { ry: 13; }
-}
 
-/* ── Eyes look around ── */
-.iris-l { animation: eyeLook 8s ease-in-out infinite; }
-.iris-r { animation: eyeLook 8s ease-in-out infinite 0.1s; }
+/* ── Eyes react to rocket — sync 5s ── */
+.iris-l { animation: eyeRocket 5s ease-in-out infinite; }
+.iris-r { animation: eyeRocket 5s ease-in-out infinite 0.06s; }
 
-@keyframes eyeLook {
-  0%, 100% { transform: translate(0, 0); }
-  20%       { transform: translate(-2px, 1px); }
-  40%       { transform: translate(2px, 0px); }
-  60%       { transform: translate(1px, -1px); }
-  80%       { transform: translate(-1px, 1px); }
+@keyframes eyeRocket {
+  /* idle */
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-1px, 0); }
+  20%  { transform: translate(0, 0); }
+
+  /* nengok ke kanan ngikutin roket orbit */
+  25%  { transform: translate(2px, -1px); }
+  32%  { transform: translate(2px, -2px); }
+  40%  { transform: translate(-1px, -1px); }
+  44%  { transform: translate(0, 0); }
+
+  /* KAGET — mata melotot (handled by eyelid) */
+  55%  { transform: translate(0, 0); }
+  57%  { transform: translate(-1px, -1px); }
+  60%  { transform: translate(1px, 1px); }
+  64%  { transform: translate(0, 0); }
+
+  /* normal */
+  80%  { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ── Screen cursor blink ── */
@@ -989,12 +1040,17 @@ a.info-value:hover { color: var(--accent-light); }
   100%  { opacity: 0.2; }
 }
 
-/* ── Mouth smile occasional ── */
-.mouth { animation: mouthSmile 6s ease-in-out infinite; }
+/* ── Mouth react to rocket sync 5s ── */
+.mouth { animation: mouthReact 5s ease-in-out infinite; }
 
-@keyframes mouthSmile {
-  0%, 60%, 100% { d: path("M148 192 Q160 202 172 192"); }
-  70%, 90%      { d: path("M148 190 Q160 205 172 190"); }
+@keyframes mouthReact {
+  /* normal smile */
+  0%, 50%, 100% { d: path("M148 192 Q160 202 172 192"); }
+  /* kaget — mulut menganga */
+  56%  { d: path("M148 190 Q160 208 172 190"); }
+  62%  { d: path("M150 192 Q160 198 170 192"); }
+  /* senyum lega */
+  75%, 90% { d: path("M146 191 Q160 206 174 191"); }
 }
 
 /* ── Code bubbles floating ── */
@@ -1137,22 +1193,38 @@ a.info-value:hover { color: var(--accent-light); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: rocketBlast 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: rocketSequence 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: center center;
 }
 
-@keyframes rocketBlast {
-  /* idle hover */
-  0%   { transform: translateY(0px) scale(1);    opacity: 1; }
-  /* mulai ngebut */
-  35%  { transform: translateY(-4px) scale(1.05); opacity: 1; }
-  /* melesat ke atas - cepet banget */
-  55%  { transform: translateY(-90px) scale(0.85); opacity: 0; }
-  /* teleport balik ke bawah (invisible) */
-  56%  { transform: translateY(60px) scale(0.7);  opacity: 0; }
-  /* muncul lagi */
-  75%  { transform: translateY(10px) scale(1.05); opacity: 1; }
-  /* settle */
-  100% { transform: translateY(0px) scale(1);    opacity: 1; }
+@keyframes rocketSequence {
+  /* 0-20%: idle hover pelan */
+  0%   { transform: translateY(0px) scale(1) rotate(0deg);     opacity: 1; }
+  10%  { transform: translateY(-5px) scale(1) rotate(0deg);    opacity: 1; }
+  20%  { transform: translateY(0px) scale(1) rotate(0deg);     opacity: 1; }
+
+  /* 20-45%: orbit mengelilingi karakter */
+  25%  { transform: translateY(-20px) translateX(10px) scale(0.9) rotate(-10deg); opacity: 1; }
+  32%  { transform: translateY(-35px) translateX(-5px) scale(0.85) rotate(-20deg); opacity: 1; }
+  40%  { transform: translateY(-15px) translateX(-20px) scale(0.9) rotate(-10deg); opacity: 1; }
+  45%  { transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);  opacity: 1; }
+
+  /* 45-55%: charge up - goyang kecil */
+  48%  { transform: translateY(-3px) scale(1.08) rotate(2deg);  opacity: 1; }
+  51%  { transform: translateY(-3px) scale(1.08) rotate(-2deg); opacity: 1; }
+  54%  { transform: translateY(-5px) scale(1.12) rotate(0deg);  opacity: 1; }
+
+  /* 55-62%: BLAST OFF melesat ke atas */
+  62%  { transform: translateY(-120px) scale(0.7) rotate(0deg); opacity: 0; }
+
+  /* 63%: respawn di bawah */
+  63%  { transform: translateY(70px) scale(0.6) rotate(0deg);   opacity: 0; }
+
+  /* 63-80%: muncul lagi turun ke posisi */
+  72%  { transform: translateY(8px) scale(1.06) rotate(0deg);   opacity: 1; }
+
+  /* 80-100%: settle idle lagi */
+  100% { transform: translateY(0px) scale(1) rotate(0deg);      opacity: 1; }
 }
 
 .rocket-icon {
@@ -1162,14 +1234,19 @@ a.info-value:hover { color: var(--accent-light); }
   filter: drop-shadow(0 0 8px rgba(167,139,250,0.8));
   z-index: 2;
   position: relative;
-  animation: rocketGlow 2.4s ease-in-out infinite;
+  animation: rocketGlow 5s ease-in-out infinite;
 }
 
 @keyframes rocketGlow {
   0%   { filter: drop-shadow(0 0 8px rgba(167,139,250,0.6)); }
-  35%  { filter: drop-shadow(0 0 14px rgba(167,139,250,0.9)); }
-  50%  { filter: drop-shadow(0 0 24px rgba(251,191,36,1)) drop-shadow(0 0 8px rgba(249,115,22,0.8)); }
-  56%  { filter: drop-shadow(0 0 4px rgba(167,139,250,0.3)); }
+  25%  { filter: drop-shadow(0 0 12px rgba(167,139,250,0.8)); }
+  44%  { filter: drop-shadow(0 0 8px rgba(167,139,250,0.6)); }
+  /* charge — mulai kuning */
+  50%  { filter: drop-shadow(0 0 18px rgba(251,191,36,0.9)); }
+  /* BLAST — glow maximal */
+  60%  { filter: drop-shadow(0 0 30px rgba(251,191,36,1)) drop-shadow(0 0 12px rgba(249,115,22,0.9)); }
+  63%  { filter: drop-shadow(0 0 4px rgba(167,139,250,0.3)); }
+  75%  { filter: drop-shadow(0 0 10px rgba(167,139,250,0.7)); }
   100% { filter: drop-shadow(0 0 8px rgba(167,139,250,0.6)); }
 }
 
@@ -1190,21 +1267,21 @@ a.info-value:hover { color: var(--accent-light); }
 .f1 {
   width: 5px; height: 12px;
   background: linear-gradient(to bottom, #fbbf24, #f97316);
-  animation: flameDance 0.12s ease-in-out infinite alternate, flameBlast 2.4s ease-in-out infinite;
+  animation: flameDance 0.12s ease-in-out infinite alternate, flameBlast 5s ease-in-out infinite;
   transform-origin: top center;
   border-radius: 20% 20% 50% 50%;
 }
 .f2 {
   width: 7px; height: 18px;
   background: linear-gradient(to bottom, #fbbf24, #f97316, #ef4444);
-  animation: flameDance 0.12s ease-in-out infinite alternate 0.05s, flameBlast 2.4s ease-in-out infinite;
+  animation: flameDance 0.12s ease-in-out infinite alternate 0.05s, flameBlast 5s ease-in-out infinite;
   transform-origin: top center;
   border-radius: 20% 20% 50% 50%;
 }
 .f3 {
   width: 5px; height: 12px;
   background: linear-gradient(to bottom, #fbbf24, #f97316);
-  animation: flameDance 0.12s ease-in-out infinite alternate 0.1s, flameBlast 2.4s ease-in-out infinite;
+  animation: flameDance 0.12s ease-in-out infinite alternate 0.1s, flameBlast 5s ease-in-out infinite;
   transform-origin: top center;
   border-radius: 20% 20% 50% 50%;
 }
@@ -1214,13 +1291,20 @@ a.info-value:hover { color: var(--accent-light); }
   to   { transform: scaleX(0.75) scaleY(1.2) skewX(6deg); }
 }
 
-/* Api makin besar saat melesat */
+/* Api makin besar saat blast off — sync 5s */
 @keyframes flameBlast {
   0%   { transform: scaleY(1)   scaleX(1); }
-  30%  { transform: scaleY(1.4) scaleX(1.2); }
-  50%  { transform: scaleY(2.8) scaleX(0.7); }
-  56%  { transform: scaleY(0.5) scaleX(1); }
-  75%  { transform: scaleY(1.3) scaleX(1.1); }
+  /* orbit: api agak besar */
+  25%  { transform: scaleY(1.3) scaleX(1.1); }
+  44%  { transform: scaleY(1)   scaleX(1); }
+  /* charge up */
+  48%  { transform: scaleY(1.5) scaleX(1.2); }
+  54%  { transform: scaleY(2.2) scaleX(0.8); }
+  /* BLAST - api gede banget */
+  60%  { transform: scaleY(3.5) scaleX(0.5); }
+  63%  { transform: scaleY(0.4) scaleX(1); }
+  /* settle */
+  75%  { transform: scaleY(1.2) scaleX(1.1); }
   100% { transform: scaleY(1)   scaleX(1); }
 }
 
@@ -1230,18 +1314,23 @@ a.info-value:hover { color: var(--accent-light); }
   height: 0;
   background: linear-gradient(to bottom, rgba(251,191,36,0.8), rgba(249,115,22,0.5), rgba(167,139,250,0.2), transparent);
   border-radius: 2px;
-  animation: trailBlast 2.4s ease-in-out infinite;
+  animation: trailBlast 5s ease-in-out infinite;
   margin-top: 0;
 }
 
 @keyframes trailBlast {
-  0%   { height: 0px;   opacity: 0;   transform: scaleX(1); }
-  30%  { height: 16px;  opacity: 0.7; transform: scaleX(1); }
-  /* saat melesat — trail panjang banget */
-  50%  { height: 80px;  opacity: 1;   transform: scaleX(1.5); }
-  56%  { height: 0px;   opacity: 0;   transform: scaleX(1); }
-  75%  { height: 20px;  opacity: 0.5; transform: scaleX(1); }
-  100% { height: 0px;   opacity: 0;   transform: scaleX(1); }
+  0%   { height: 0px;  opacity: 0;   transform: scaleX(1); }
+  /* orbit: trail kecil */
+  25%  { height: 10px; opacity: 0.5; transform: scaleX(1); }
+  44%  { height: 6px;  opacity: 0.3; transform: scaleX(1); }
+  /* charge */
+  54%  { height: 22px; opacity: 0.8; transform: scaleX(1.2); }
+  /* BLAST — trail panjaaang */
+  61%  { height: 100px; opacity: 1;  transform: scaleX(2); }
+  63%  { height: 0px;  opacity: 0;   transform: scaleX(1); }
+  /* landing */
+  72%  { height: 18px; opacity: 0.5; transform: scaleX(1); }
+  100% { height: 0px;  opacity: 0;   transform: scaleX(1); }
 }
 
 
